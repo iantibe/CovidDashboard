@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Covid Dashboard</title>
+
+<style>
+    body {
+        background-color: cadetblue;
+    }
+
+    #buttons {
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .items {
+        border-style: solid;
+        border-width: thin;
+        width: 400px;
+        height: 75px;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+
+    }
+
+    #response {
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: solid;
+        border-width: thin;
+        min-height: 500px;
+    }
+
+    #content {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #title {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .items h2{
+        margin-top: 0;
+
+    }
+
+</style>
+    <script>
+
+        function get_data_forstate(){
+
+
+             var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var data = null
+        data = this.responseText;
+        objectdata = JSON.parse(data)
+
+        console.log(objectdata["gather"])
+        console.log(objectdata["nonessentialbus"])
+        objectdata["resturant"]
+        objectdata["source"]
+    }
+  };
+  xhttp.open("GET", "/statedata/ia", true);
+  xhttp.send();
+
+       }
+
+    </script>
+</head>
+<body>
+<h1 id="title">Covid Dashboard</h1>
+
+<div id="content">
+    <div id="buttons">
+        <div class="items">
+            <h2>Load Data</h2>
+            <input type="button" value="Click to Load Newest Data"/>
+        </div>
+        <div class="items">
+            <h2>Show Restrictions for each state</h2>
+            <div>
+                <label for="location">Input State Code</label>
+                <input type="text" id="location">
+                <input type="button" onclick="get_data_forstate()" value="test">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="response">
+
+    </div>
+</div>
+
+</body>
+</html>
