@@ -61,7 +61,7 @@
     <script>
 
         function get_data_forstate(){
-
+            lookupstate = document.querySelector('#location').value
 
              var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -70,13 +70,13 @@
         data = this.responseText;
         objectdata = JSON.parse(data)
 
-        console.log(objectdata["gather"])
-        console.log(objectdata["nonessentialbus"])
-        objectdata["resturant"]
-        objectdata["source"]
+        document.querySelector('#gatheringdisplay').innerHTML = objectdata["gather"]
+        document.querySelector('#noessentialdisplay').innerHTML = objectdata["nonessentialbus"]
+        document.querySelector('#resturantdisplay').innerHTML = objectdata["resturant"]
+        document.querySelector('#sourcedisplay').innerHTML = objectdata["source"]
     }
   };
-  xhttp.open("GET", "/statedata/ia", true);
+  xhttp.open("GET", "/statedata/" + lookupstate, true);
   xhttp.send();
 
        }
@@ -104,7 +104,13 @@
     </div>
 
     <div id="response">
+            <div>
+                <p>Resturant Restriction<span id="resturantdisplay"></span></p>
+                <p>Gathering Restriction<span id="gatheringdisplay"></span></p>
+                <p>Non-essential business restrict<span id="noessentialdisplay"></span></p>
+                <p>source:<span id="sourcedisplay"></span></p>
 
+            </div>
     </div>
 </div>
 
