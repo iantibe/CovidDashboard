@@ -2,6 +2,9 @@ from flask import Flask, render_template
 import requests
 import json
 
+from SearchCountry import SearchCountry
+from SearchState import SearchState
+
 app = Flask(__name__)
 
 
@@ -9,7 +12,18 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/statedata/<state>")
+@app.route("/searchcountry/<country>/<date>")
+def countrysearch(country, date):
+    instance = SearchCountry()
+    return instance.search(date, country)
+
+
+@app.route("/searchstate/<state>/<date>")
+def searchstate(state, date):
+    instance = SearchState()
+    return instance.search(date, state)
+
+@app.route("/state/<state>")
 def statedata(state):
     state = state.upper()
     response = requests.get("https://localcoviddata.com/covid19/v1/high-level-policy?country=USA&state=" + state)

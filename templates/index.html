@@ -60,23 +60,69 @@
 </style>
     <script>
 
-        function get_data_forstate(){
+        function get_search_data_for_country(){
+
+            var url = "/searchcountry/Oman/2020-12-12"
+            var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+             document.querySelector('#dateforcounrydisplay').innerHTML = "link to date on page"
+             document.querySelector('#countryforcountrydisplay').innerHTML = "link to country display"
+             document.querySelector('#deathsforcountrydisplay').innerHTML = objectdata["deaths"]
+             document.querySelector('#casesforcountrydisplay').innerHTML = objectdata["cases"]
+           }
+         };
+           xhttp.open("GET", url, true);
+           xhttp.send();
+
+
+        }
+
+        function get_serchdata_for_state() {
+
+            var url = "/searchstate/Iowa/2020-12-12"
+
+            var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+
+             document.querySelector('#dateforstatedisplay').innerHTML = "link to date on page"
+             document.querySelector('#stateforstatedisplay').innerHTML = "link to country display"
+             document.querySelector('#deathsforstatedisplay').innerHTML = objectdata["deaths"]
+             document.querySelector('#casesforstatedisplay').innerHTML = objectdata["cases"]
+           }
+         };
+           xhttp.open("GET", url, true);
+           xhttp.send();
+        }
+
+        function get_data_forstate_restrict(){
             lookupstate = document.querySelector('#location').value
-
+            console.log(lookupstate)
              var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var data = null
-        data = this.responseText;
-        objectdata = JSON.parse(data)
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
 
-        document.querySelector('#gatheringdisplay').innerHTML = objectdata["gather"]
-        document.querySelector('#noessentialdisplay').innerHTML = objectdata["nonessentialbus"]
-        document.querySelector('#resturantdisplay').innerHTML = objectdata["resturant"]
-        document.querySelector('#sourcedisplay').innerHTML = objectdata["source"]
+            document.querySelector('#gatheringdisplay').innerHTML = objectdata["gather"]
+            document.querySelector('#noessentialdisplay').innerHTML = objectdata["nonessentialbus"]
+            document.querySelector('#resturantdisplay').innerHTML = objectdata["resturant"]
+            document.querySelector('#sourcedisplay').innerHTML = objectdata["source"]
     }
   };
-  xhttp.open("GET", "/statedata/" + lookupstate, true);
+  xhttp.open("GET", "/state/" + lookupstate, true);
   xhttp.send();
 
        }
@@ -97,7 +143,23 @@
             <div>
                 <label for="location">Input State Code</label>
                 <input type="text" id="location">
-                <input type="button" onclick="get_data_forstate()" value="test">
+                <input type="button" onclick="get_data_forstate_restrict()" value="test">
+            </div>
+        </div>
+        <div class="items">
+            <h2>Search State data</h2>
+            <div>
+                <label for="location">Input State Code</label>
+                <input type="text" id="location">
+                <input type="button" onclick="get_serchdata_for_state()" value="test">
+            </div>
+        </div>
+        <div class="items">
+            <h2>Search Country data</h2>
+            <div>
+                <label for="location">Input Country</label>
+                <input type="text" id="location">
+                <input type="button" onclick="get_search_data_for_country()" value="test">
             </div>
         </div>
 
@@ -111,6 +173,21 @@
                 <p>source:<span id="sourcedisplay"></span></p>
 
             </div>
+
+            <div id="displaystatedata">
+                <p>State<span id="stateforstatedisplay"></span></p>
+                <p>Date<span id="dateforstatedisplay"></span></p>
+                <p>Cases<span id="casesforstatedisplay"></span></p>
+                <p>Deaths<span id="deathsforstatedisplay"></span></p>
+            </div>
+
+            <div id="displaycountrydata">
+                <p>Country<span id="countryforcountrydisplay"></span></p>
+                <p>Date<span id="dateforcounrydisplay"></span></p>
+                <p>Cases<span id="casesforcountrydisplay"></span></p>
+                <p>Deaths<span id="deathsforcountrydisplay"></span></p>
+            </div>
+
     </div>
 </div>
 
