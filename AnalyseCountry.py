@@ -2,9 +2,9 @@ import sqlite3
 from sqlite3 import Error
 import pandas as pd
 
-databaseName = "statedata"
+databaseName = "countrydata"
 
-class AnalyseState:
+class AnalyseCountry:
     def init_connection(self):
         """
         creates connection to database
@@ -21,7 +21,7 @@ class AnalyseState:
         return {"maxcase": max_case, "mincase": min_case, "maxdeath": max_death, "mindeath":min_death,
                 "averagecase": average_case, "averagedeath": average_death}
 
-    def analyse_state(self, state):
+    def analyse_country(self, country):
         max_death = -1
         min_death = -1
         max_cases = -1
@@ -30,10 +30,10 @@ class AnalyseState:
         average_deaths = -1
 
         conn = self.init_connection()
-        item_to_search = [state]
+        item_to_search = [country]
         data = conn.cursor()
 
-        results = data.execute("Select state, cases, deaths from statedata where state=?", item_to_search).fetchall()
+        results = data.execute("Select country, cases, deaths from countrydata where country=?", item_to_search).fetchall()
 
         new_list_of_data = []
 
@@ -50,11 +50,15 @@ class AnalyseState:
             previous_case = x[1]
             previous_death = x[2]
 
-        data_frame = pd.DataFrame(new_list_of_data, columns=['State', "New Cases", "New Deaths"])
+        data_frame = pd.DataFrame(new_list_of_data, columns=['Country', "New Cases", "New Deaths"])
         average_data_frame = data_frame.mean()
         max_data_frame = data_frame.max()
         min_data_frame = data_frame.min()
 
+        print(results)
+        print(new_list_of_data)
+
+        print(data_frame)
         print(max_data_frame)
         print(max_data_frame[0])
         print("MAx case", max_data_frame[1])
@@ -80,5 +84,5 @@ class AnalyseState:
 
 
 if __name__ == '__main__':
-    instance = AnalyseState()
-    print(instance.analyse_state("Iowa"))
+    instance = AnalyseCountry()
+    print(instance.analyse_country("Ireland"))
