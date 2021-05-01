@@ -25,41 +25,51 @@ class AnalyseState:
         average_cases = -1
         average_deaths = -1
 
-
         conn = self.init_connection()
         item_to_search = [state]
         data = conn.cursor()
 
         results = data.execute("Select state, cases, deaths from statedata where state=?", item_to_search).fetchall()
 
-
-
-        new_list = []
+        new_list_of_data = []
 
         previous_case = 0
         previous_death = 0
 
         for x in results:
-            """x is touble"""
-
             previous_case = x[1] - previous_case
             previous_death = x[2] - previous_death
 
             new_touple = (x[0], previous_case, previous_death)
-            new_list.append(new_touple)
+            new_list_of_data.append(new_touple)
 
             previous_case = x[1]
             previous_death = x[2]
 
-        print(new_list)
+        print(new_list_of_data)
         print(results)
 
-        data_frame = pd.DataFrame(new_list, columns=['State', "New Cases", "New Deaths"])
+        data_frame = pd.DataFrame(new_list_of_data, columns=['State', "New Cases", "New Deaths"])
         print(data_frame)
         average_data_frame = data_frame.mean()
-        print(data_frame.max())
-        print(data_frame.min())
+        max_data_frame = data_frame.max()
+        min_data_frame = data_frame.min()
+
+        print(max_data_frame)
+        print(max_data_frame[0])
+        print(max_data_frame[1])
+        print(max_data_frame[2])
+
         print(average_data_frame)
+        print(average_data_frame[0])
+        print(average_data_frame[1])
+
+
+        print(min_data_frame)
+        print(min_data_frame[0])
+        print(min_data_frame[1])
+        print(min_data_frame[2])
+        conn.close()
 
 if __name__ == '__main__':
     instance = AnalyseState()
