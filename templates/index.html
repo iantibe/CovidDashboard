@@ -282,9 +282,55 @@
            xhttp.send();
 
         }
+
+        function getstatedates(){
+             var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+
+             for(let x=0; x < objectdata.length; x++){
+                 var element = document.createElement("option")
+                 element.value = objectdata[x]
+                 element.text = objectdata[x]
+                 document.querySelector("#stateinputdate").appendChild(element)
+             }
+
+
+           }
+         };
+           xhttp.open("GET", "/generatestatedates", true);
+           xhttp.send();
+        }
+
+        function getcountrydates(){
+             var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+            for(let x=0; x < objectdata.length; x++){
+                 var element = document.createElement("option")
+                 element.value = objectdata[x]
+                 element.text = objectdata[x]
+                 document.querySelector("#countryinputdate").appendChild(element)
+             }
+
+           }
+         };
+           xhttp.open("GET", "/generatecountrydates", true);
+           xhttp.send();
+        }
     </script>
 </head>
-<body onload="fillstatelist(); fillcountrylist();">
+<body onload="fillstatelist(); fillcountrylist(); getcountrydates(); getstatedates()">
 <h1 id="title">Covid Dashboard</h1>
 
 <div id="content">

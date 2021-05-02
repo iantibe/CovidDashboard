@@ -17,6 +17,16 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/generatestatedates')
+def generatestatedates():
+    instance = GenerateSelection()
+    return instance.get_state_dates()
+
+@app.route('/generatecountrydates')
+def generatecountrydates():
+    instance = GenerateSelection()
+    return instance.get_country_dates()
+
 @app.route("/getcountrylist")
 def getcountrylist():
     instance = GenerateSelection()

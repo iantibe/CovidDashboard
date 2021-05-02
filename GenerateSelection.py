@@ -44,3 +44,29 @@ class GenerateSelection:
 
         conn.close()
         return json.dumps(result_list)
+
+    def get_state_dates(self):
+        conn = self.init_connection(state_databasename)
+        query = conn.cursor()
+        results = query.execute("select distinct date from statedata;")
+
+        results_list = []
+
+        for x in results:
+            results_list.append(x[0])
+
+        conn.close()
+        return json.dumps(results_list)
+
+    def get_country_dates(self):
+        conn = self.init_connection(country_databasename)
+        query = conn.cursor()
+        results = query.execute("select distinct date from countrydata;")
+
+        result_list = []
+
+        for x in results:
+            result_list.append(x[0])
+
+        conn.close()
+        return json.dumps(result_list)
