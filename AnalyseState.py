@@ -18,7 +18,7 @@ class AnalyseState:
             print(Error)
 
     def create_dict(self, max_case, min_case, max_death, min_death, average_case, average_death):
-        return {"maxcase": max_case, "mincase": min_case, "maxdeath": max_death, "mindeath":min_death,
+        return {"maxcase": max_case, "mincase": min_case, "maxdeath": max_death, "mindeath": min_death,
                 "averagecase": average_case, "averagedeath": average_death}
 
     def analyse_state(self, state):
@@ -75,7 +75,7 @@ class AnalyseState:
         print("Min case", min_data_frame[2])
         min_death = min_data_frame[2]
         conn.close()
-        return  self.create_dict(max_cases,min_cases, max_death, min_death, average_cases, average_deaths)
+        return  self.create_dict(str(max_cases),str(min_cases), str(max_death), str(min_death), str(average_cases), str(average_deaths))
 
 
 

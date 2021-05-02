@@ -33,7 +33,7 @@ class StateDatabase:
         return len(result.fetchall())
 
     def update(self):
-
+        print("in update state")
         reqes = requests.get("https://energ.ee/covid19-us-api/states.json")
 
         conn = self.init_connection()
@@ -57,4 +57,4 @@ class StateDatabase:
 
         conn.close()
         selectconnect.close()
-
+        return {"status": "done"}

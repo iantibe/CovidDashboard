@@ -9,7 +9,7 @@
         background-color: cadetblue;
     }
 
-    #buttons {
+    .buttons {
         display: flex;
         margin-left: auto;
         margin-right: auto;
@@ -120,23 +120,94 @@
             document.querySelector('#noessentialdisplay').innerHTML = objectdata["nonessentialbus"]
             document.querySelector('#resturantdisplay').innerHTML = objectdata["resturant"]
             document.querySelector('#sourcedisplay').innerHTML = objectdata["source"]
-    }
-  };
-  xhttp.open("GET", "/state/" + lookupstate, true);
-  xhttp.send();
+         }
+          };
+           xhttp.open("GET", "/state/" + lookupstate, true);
+           xhttp.send();
 
-       }
+        }
 
+        function display_state_analysis(){
+            var url = "/analysestate/Iowa"
+            var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+             document.querySelector('#displayanalysislocation').innerHTML = "Link to input"
+             document.querySelector('#mincases').innerHTML = objectdata["mincase"]
+             document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
+             document.querySelector('#averagecases').innerHTML = objectdata["averagecase"]
+             document.querySelector('#mindeaths').innerHTML = objectdata["mindeath"]
+             document.querySelector('#maxdeaths').innerHTML = objectdata["maxdeath"]
+             document.querySelector('#averagedeaths').innerHTML =     objectdata["averagedeath"]
+           }
+         };
+           xhttp.open("GET", url, true);
+           xhttp.send();
+        }
+
+        function display_country_analysis(){
+             var url = "/analysecountry/Oman"
+            var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+             document.querySelector('#displayanalysislocation').innerHTML = "Link to input"
+             document.querySelector('#mincases').innerHTML = objectdata["mincase"]
+             document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
+             document.querySelector('#averagecases').innerHTML = objectdata["averagecase"]
+             document.querySelector('#mindeaths').innerHTML = objectdata["mindeath"]
+             document.querySelector('#maxdeaths').innerHTML = objectdata["maxdeath"]
+             document.querySelector('#averagedeaths').innerHTML =     objectdata["averagedeath"]
+           }
+         };
+           xhttp.open("GET", url, true);
+           xhttp.send();
+        }
+
+        function update_state(){
+             var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+
+             document.querySelector('#dateforstatedisplay').innerHTML = "link to date on page"
+
+           }
+         };
+           xhttp.open("GET", "/updatestate", true);
+           xhttp.send();
+
+        }
     </script>
 </head>
 <body>
 <h1 id="title">Covid Dashboard</h1>
 
 <div id="content">
-    <div id="buttons">
+    <div class="buttons">
         <div class="items">
-            <h2>Load Data</h2>
-            <input type="button" value="Click to Load Newest Data"/>
+            <h2>Update Country Data</h2>
+            <input type="button" value="Click to Load Newest Country Data"/>
+            <span id="updatecountryresult"></span>
+
+        </div>
+        <div class="buttons">
+            <h2>Update State Date</h2>
+            <input type="button" value="Click to Load Newest State Data" onclick="update_state()">
+            <span id="updatestateresult"></span>
         </div>
         <div class="items">
             <h2>Show Restrictions for each state</h2>
@@ -149,43 +220,66 @@
         <div class="items">
             <h2>Search State data</h2>
             <div>
-                <label for="location">Input State Code</label>
-                <input type="text" id="location">
+                <label for="stateinput">Input State Code</label>
+                <input type="text" id="stateinput">
                 <input type="button" onclick="get_serchdata_for_state()" value="test">
             </div>
         </div>
         <div class="items">
             <h2>Search Country data</h2>
             <div>
-                <label for="location">Input Country</label>
-                <input type="text" id="location">
+                <label for="countryinput">Input Country</label>
+                <input type="text" id="countryinput">
                 <input type="button" onclick="get_search_data_for_country()" value="test">
             </div>
         </div>
-
+        <div class="items">
+            <h2>Analyse State data</h2>
+            <label for="selectstateforanalyse">Input state</label>
+            <select id="selectstateforanalyse">
+                <option value="Iowa">Iowa</option>
+            </select>
+            <input type="button" value="Start" onclick="display_state_analysis()">
+        </div>
+        <div class="items">
+            <label for="selectcountryforanalyse">Input Country</label>
+            <select id="selectcountryforanalyse">
+                <option value="Iowa">Iowa</option>
+            </select>
+            <input type="button" value="Start">
+        </div>
     </div>
 
     <div id="response">
             <div>
-                <p>Resturant Restriction<span id="resturantdisplay"></span></p>
-                <p>Gathering Restriction<span id="gatheringdisplay"></span></p>
-                <p>Non-essential business restrict<span id="noessentialdisplay"></span></p>
-                <p>source:<span id="sourcedisplay"></span></p>
+                <p><h3>Resturant Restriction</h3><span id="resturantdisplay"></span></p>
+                <p><h3>Gathering Restriction</h3><span id="gatheringdisplay"></span></p>
+                <p><h3>Non-essential business restrict</h3><span id="noessentialdisplay"></span></p>
+                <p><h3>>source:</h3><span id="sourcedisplay"></span></p>
 
             </div>
 
             <div id="displaystatedata">
-                <p>State<span id="stateforstatedisplay"></span></p>
-                <p>Date<span id="dateforstatedisplay"></span></p>
-                <p>Cases<span id="casesforstatedisplay"></span></p>
-                <p>Deaths<span id="deathsforstatedisplay"></span></p>
+                <p><h3>State</h3><span id="stateforstatedisplay"></span></p>
+                <p><h3>Date</h3><span id="dateforstatedisplay"></span></p>
+                <p><h3>Cases</h3><span id="casesforstatedisplay"></span></p>
+                <p><h3>Deaths</h3><span id="deathsforstatedisplay"></span></p>
             </div>
 
             <div id="displaycountrydata">
-                <p>Country<span id="countryforcountrydisplay"></span></p>
-                <p>Date<span id="dateforcounrydisplay"></span></p>
-                <p>Cases<span id="casesforcountrydisplay"></span></p>
-                <p>Deaths<span id="deathsforcountrydisplay"></span></p>
+                <p><h3>Country</h3><span id="countryforcountrydisplay"></span></p>
+                <p><h3>Date</h3><span id="dateforcounrydisplay"></span></p>
+                <p><h3>Cases</h3><span id="casesforcountrydisplay"></span></p>
+                <p><h3>Deaths</h3><span id="deathsforcountrydisplay"></span></p>
+            </div>
+            <div id="displayanalysis">
+                <p><h3>State or Country</h3><span id="displayanalysislocation"></span></p>
+                <p><h3>Min New Cases on a day</h3><span id="mincases"></span></p>
+                <p><h3>Max New Cases on a day</h3><span id="maxcases"></span></p>
+                <p><h3>Average New Cases per day</h3><span id="averagecases"></span></p>
+                <p><h3>Min deaths on a day</h3><span id="mindeaths"></span></p>
+                <p><h3>Max New Deaths on a day</h3><span id="maxdeaths"></span></p>
+                <p><h3>Average Deaths per day</h3><span id="averagedeaths"></span></p>
             </div>
 
     </div>
