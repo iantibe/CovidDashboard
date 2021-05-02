@@ -4,6 +4,8 @@ import json
 
 from AnalyseCountry import AnalyseCountry
 from AnalyseState import AnalyseState
+from CountryDatabase import CountryDatabase
+from GenerateSelection import GenerateSelection
 from SearchCountry import SearchCountry
 from SearchState import SearchState
 from StateDatabase import StateDatabase
@@ -14,6 +16,22 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route("/getcountrylist")
+def getcountrylist():
+    instance = GenerateSelection()
+    return instance.get_countries()
+
+@app.route("/getstatelist")
+def getstates():
+    instance = GenerateSelection()
+    return instance.get_states()
+
+@app.route("/updatecountry")
+def updatecountry():
+    instance = CountryDatabase()
+    return instance.update()
+
 
 @app.route("/updatestate")
 def updatestate():

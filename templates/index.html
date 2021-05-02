@@ -128,7 +128,11 @@
         }
 
         function display_state_analysis(){
-            var url = "/analysestate/Iowa"
+
+            stateselector = document.querySelector('#selectstateforanalyse')
+            statedata = stateselector.options[stateselector.selectedIndex].value
+            var url = "/analysestate/" + statedata
+
             var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
@@ -137,7 +141,7 @@
             objectdata = JSON.parse(data)
 
            console.log(objectdata)
-             document.querySelector('#displayanalysislocation').innerHTML = "Link to input"
+             document.querySelector('#displayanalysislocation').innerHTML = statedata
              document.querySelector('#mincases').innerHTML = objectdata["mincase"]
              document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
              document.querySelector('#averagecases').innerHTML = objectdata["averagecase"]
@@ -151,7 +155,10 @@
         }
 
         function display_country_analysis(){
-             var url = "/analysecountry/Oman"
+
+           countryselector = document.querySelector('#selectcountryforanalyse')
+            countrydata = countryselector.options[countryselector.selectedIndex].value
+           var url = "/analysecountry/" + countrydata
             var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
@@ -160,7 +167,7 @@
             objectdata = JSON.parse(data)
 
            console.log(objectdata)
-             document.querySelector('#displayanalysislocation').innerHTML = "Link to input"
+             document.querySelector('#displayanalysislocation').innerHTML = countrydata
              document.querySelector('#mincases').innerHTML = objectdata["mincase"]
              document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
              document.querySelector('#averagecases').innerHTML = objectdata["averagecase"]
@@ -174,6 +181,7 @@
         }
 
         function update_state(){
+            document.querySelector('#updatestateresult').innerHTML = "Loading data....Please Wait...."
              var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
@@ -183,7 +191,7 @@
 
            console.log(objectdata)
 
-             document.querySelector('#dateforstatedisplay').innerHTML = "link to date on page"
+             document.querySelector('#updatestateresult').innerHTML = objectdata["status"]
 
            }
          };
@@ -191,16 +199,99 @@
            xhttp.send();
 
         }
+
+        function update_country(){
+            document.querySelector('#updatecountryresult').innerHTML = "Loading data....Please Wait...."
+             var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+
+             document.querySelector('#updatecountryresult').innerHTML = objectdata["status"]
+
+           }
+         };
+           xhttp.open("GET", "/updatecountry", true);
+           xhttp.send();
+
+        }
+
+        function fillstatelist(){
+             var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+
+            for(let x= 0; x< objectdata.length; x++){
+                var item1 = document.createElement("option")
+                //var item2 = document.createElement("option")
+                var item3 = document.createElement("option")
+                item1.value = objectdata[x]
+                item1.text = objectdata[x]
+
+                //item2.value = objectdata[x]
+                //item2.text = objectdata[x]
+
+                item3.value = objectdata[x]
+                item3.text = objectdata[x]
+                document.querySelector('#selectstateforanalyse').appendChild(item1)
+               // document.querySelector('#stateinputrestrictions').appendChild(item2)
+                document.querySelector('#stateinput').appendChild(item3)
+
+            }
+
+           }
+         };
+           xhttp.open("GET", "/getstatelist", true);
+           xhttp.send();
+        }
+
+        function fillcountrylist(){
+            var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var data = null
+            data = this.responseText;
+            objectdata = JSON.parse(data)
+
+           console.log(objectdata)
+
+              for(let x= 0; x< objectdata.length; x++){
+                var item1 = document.createElement("option")
+                  var item2 = document.createElement("option")
+                item1.value = objectdata[x]
+                item1.text = objectdata[x]
+                  item2.value = objectdata[x]
+                  item2.text = objectdata[x]
+                document.querySelector('#countryinput').appendChild(item1)
+                document.querySelector('#selectcountryforanalyse').appendChild(item2)
+
+            }
+
+           }
+         };
+           xhttp.open("GET", "/getcountrylist", true);
+           xhttp.send();
+
+        }
     </script>
 </head>
-<body>
+<body onload="fillstatelist(); fillcountrylist();">
 <h1 id="title">Covid Dashboard</h1>
 
 <div id="content">
     <div class="buttons">
         <div class="items">
             <h2>Update Country Data</h2>
-            <input type="button" value="Click to Load Newest Country Data"/>
+            <input type="button" value="Click to Load Newest Country Data" onclick="update_country()"/>
             <span id="updatecountryresult"></span>
 
         </div>
@@ -212,16 +303,20 @@
         <div class="items">
             <h2>Show Restrictions for each state</h2>
             <div>
-                <label for="location">Input State Code</label>
-                <input type="text" id="location">
+                <label for="location">Select State</label>
+
+                <input id="location" type="text">
                 <input type="button" onclick="get_data_forstate_restrict()" value="test">
+
             </div>
         </div>
         <div class="items">
             <h2>Search State data</h2>
             <div>
                 <label for="stateinput">Input State Code</label>
-                <input type="text" id="stateinput">
+                <select id="stateinput"></select>
+                <label for="stateinputdate">Input Date</label>
+                <select id="stateinputdate"></select>
                 <input type="button" onclick="get_serchdata_for_state()" value="test">
             </div>
         </div>
@@ -229,24 +324,22 @@
             <h2>Search Country data</h2>
             <div>
                 <label for="countryinput">Input Country</label>
-                <input type="text" id="countryinput">
+                <select id="countryinput"></select>
+                <label for="countryinputdate">Input Date</label>
+                <select id="countryinputdate"></select>
                 <input type="button" onclick="get_search_data_for_country()" value="test">
             </div>
         </div>
         <div class="items">
             <h2>Analyse State data</h2>
             <label for="selectstateforanalyse">Input state</label>
-            <select id="selectstateforanalyse">
-                <option value="Iowa">Iowa</option>
-            </select>
+            <select id="selectstateforanalyse"></select>
             <input type="button" value="Start" onclick="display_state_analysis()">
         </div>
         <div class="items">
             <label for="selectcountryforanalyse">Input Country</label>
-            <select id="selectcountryforanalyse">
-                <option value="Iowa">Iowa</option>
-            </select>
-            <input type="button" value="Start">
+            <select id="selectcountryforanalyse"></select>
+            <input type="button" value="Start" onclick="display_country_analysis()">
         </div>
     </div>
 

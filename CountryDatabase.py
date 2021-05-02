@@ -57,6 +57,8 @@ class CountryDatabase:
 
         conn.close()
         selectconnect.close()
+        return {"status": "done"}
+
 
 if __name__ == '__main__':
     item = CountryDatabase()
