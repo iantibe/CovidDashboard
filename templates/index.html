@@ -15,11 +15,12 @@
         margin-right: auto;
         justify-content: space-around;
         align-items: center;
+        margin-top: 15px;
     }
     .items {
         border-style: solid;
         border-width: thin;
-        width: 400px;
+        width: 500px;
         height: 75px;
         display: flex;
         flex-direction: column;
@@ -27,8 +28,6 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-
-
     }
 
     #response {
@@ -57,12 +56,28 @@
 
     }
 
+    .responseitem {
+        margin-left: auto;
+        margin-right: auto;
+        border-style: solid;
+        border-width: thin;
+        width: 500px;
+        margin-top: 20px;
+        padding: 10px;
+    }
+
 </style>
     <script>
 
         function get_search_data_for_country(){
+             countryselector = document.querySelector('#countryinput')
+            countrydata = countryselector.options[countryselector.selectedIndex].value
 
-            var url = "/searchcountry/Oman/2020-12-12"
+             dateselector = document.querySelector('#countryinputdate')
+            datedata = dateselector.options[dateselector.selectedIndex].value
+
+            var url = "/searchcountry/" + countrydata + "/" + datedata
+            console.log(url)
             var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
@@ -71,8 +86,8 @@
             objectdata = JSON.parse(data)
 
            console.log(objectdata)
-             document.querySelector('#dateforcounrydisplay').innerHTML = "link to date on page"
-             document.querySelector('#countryforcountrydisplay').innerHTML = "link to country display"
+             document.querySelector('#dateforcounrydisplay').innerHTML = datedata
+             document.querySelector('#countryforcountrydisplay').innerHTML = countrydata
              document.querySelector('#deathsforcountrydisplay').innerHTML = objectdata["deaths"]
              document.querySelector('#casesforcountrydisplay').innerHTML = objectdata["cases"]
            }
@@ -85,8 +100,14 @@
 
         function get_serchdata_for_state() {
 
-            var url = "/searchstate/Iowa/2020-12-12"
+             stateselector = document.querySelector('#stateinput')
+            statedata = stateselector.options[stateselector.selectedIndex].value
 
+             dateselector = document.querySelector('#stateinputdate')
+            datedata = dateselector.options[dateselector.selectedIndex].value
+
+            var url = "/searchstate/" + statedata +"/" + datedata
+            console.log(url)
             var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
@@ -96,8 +117,8 @@
 
            console.log(objectdata)
 
-             document.querySelector('#dateforstatedisplay').innerHTML = "link to date on page"
-             document.querySelector('#stateforstatedisplay').innerHTML = "link to country display"
+             document.querySelector('#dateforstatedisplay').innerHTML = datedata
+             document.querySelector('#stateforstatedisplay').innerHTML = statedata
              document.querySelector('#deathsforstatedisplay').innerHTML = objectdata["deaths"]
              document.querySelector('#casesforstatedisplay').innerHTML = objectdata["cases"]
            }
@@ -107,7 +128,9 @@
         }
 
         function get_data_forstate_restrict(){
-            lookupstate = document.querySelector('#location').value
+            statelookup = document.querySelector('#location')
+             lookupstate = statelookup.options[statelookup.selectedIndex].value
+
             console.log(lookupstate)
              var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
@@ -190,8 +213,10 @@
             objectdata = JSON.parse(data)
 
            console.log(objectdata)
-
-             document.querySelector('#updatestateresult').innerHTML = objectdata["status"]
+                today = new Date()
+             document.querySelector('#updatestateresult').innerHTML = objectdata["status"] + " at " + today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()
+             console.log("fire date update")
+             getstatedates()
 
            }
          };
@@ -210,9 +235,9 @@
             objectdata = JSON.parse(data)
 
            console.log(objectdata)
-
-             document.querySelector('#updatecountryresult').innerHTML = objectdata["status"]
-
+                today = new Date()
+             document.querySelector('#updatecountryresult').innerHTML = objectdata["status"] +  " at " + today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()
+             getcountrydates()
            }
          };
            xhttp.open("GET", "/updatecountry", true);
@@ -334,6 +359,7 @@
 <h1 id="title">Covid Dashboard</h1>
 
 <div id="content">
+
     <div class="buttons">
         <div class="items">
             <h2>Update Country Data</h2>
@@ -341,21 +367,77 @@
             <span id="updatecountryresult"></span>
 
         </div>
-        <div class="buttons">
+        <div class="items">
             <h2>Update State Date</h2>
             <input type="button" value="Click to Load Newest State Data" onclick="update_state()">
             <span id="updatestateresult"></span>
         </div>
+    </div>
+    <div class="buttons">
         <div class="items">
             <h2>Show Restrictions for each state</h2>
             <div>
                 <label for="location">Select State</label>
-
-                <input id="location" type="text">
+                <select id="location">
+	                    <option value="AL">Alabama</option>
+	                    <option value="AK">Alaska</option>
+	                    <option value="AZ">Arizona</option>
+	                    <option value="AR">Arkansas</option>
+	                    <option value="CA">California</option>
+	                    <option value="CO">Colorado</option>
+	                    <option value="CT">Connecticut</option>
+	                    <option value="DE">Delaware</option>
+	                    <option value="DC">District Of Columbia</option>
+	                    <option value="FL">Florida</option>
+	                    <option value="GA">Georgia</option>
+	                    <option value="HI">Hawaii</option>
+	                    <option value="ID">Idaho</option>
+	                    <option value="IL">Illinois</option>
+	                    <option value="IN">Indiana</option>
+	                    <option value="IA">Iowa</option>
+	                    <option value="KS">Kansas</option>
+	                    <option value="KY">Kentucky</option>
+	                    <option value="LA">Louisiana</option>
+	                    <option value="ME">Maine</option>
+	                    <option value="MD">Maryland</option>
+	                    <option value="MA">Massachusetts</option>
+	                    <option value="MI">Michigan</option>
+	                    <option value="MN">Minnesota</option>
+	                    <option value="MS">Mississippi</option>
+	                    <option value="MO">Missouri</option>
+	                    <option value="MT">Montana</option>
+	                    <option value="NE">Nebraska</option>
+	                    <option value="NV">Nevada</option>
+	                    <option value="NH">New Hampshire</option>
+	                    <option value="NJ">New Jersey</option>
+	                    <option value="NM">New Mexico</option>
+	                    <option value="NY">New York</option>
+	                    <option value="NC">North Carolina</option>
+	                    <option value="ND">North Dakota</option>
+	                    <option value="OH">Ohio</option>
+	                    <option value="OK">Oklahoma</option>
+	                    <option value="OR">Oregon</option>
+	                    <option value="PA">Pennsylvania</option>
+	                    <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+	                    <option value="SD">South Dakota</option>
+	                    <option value="TN">Tennessee</option>
+	                    <option value="TX">Texas</option>
+	                    <option value="UT">Utah</option>
+	                    <option value="VT">Vermont</option>
+	                    <option value="VA">Virginia</option>
+	                    <option value="WA">Washington</option>
+	                    <option value="WV">West Virginia</option>
+	                    <option value="WI">Wisconsin</option>
+	                    <option value="WY">Wyoming</option>
+                </select>
                 <input type="button" onclick="get_data_forstate_restrict()" value="test">
 
             </div>
         </div>
+    </div>
+    <div class="buttons">
+
         <div class="items">
             <h2>Search State data</h2>
             <div>
@@ -376,13 +458,18 @@
                 <input type="button" onclick="get_search_data_for_country()" value="test">
             </div>
         </div>
+
+    </div>
+
+    <div class="buttons">
         <div class="items">
-            <h2>Analyse State data</h2>
+            <h2>Analyse State Data</h2>
             <label for="selectstateforanalyse">Input state</label>
             <select id="selectstateforanalyse"></select>
             <input type="button" value="Start" onclick="display_state_analysis()">
         </div>
         <div class="items">
+            <h2>Analyse Country Data</h2>
             <label for="selectcountryforanalyse">Input Country</label>
             <select id="selectcountryforanalyse"></select>
             <input type="button" value="Start" onclick="display_country_analysis()">
@@ -390,35 +477,35 @@
     </div>
 
     <div id="response">
-            <div>
-                <p><h3>Resturant Restriction</h3><span id="resturantdisplay"></span></p>
-                <p><h3>Gathering Restriction</h3><span id="gatheringdisplay"></span></p>
-                <p><h3>Non-essential business restrict</h3><span id="noessentialdisplay"></span></p>
-                <p><h3>>source:</h3><span id="sourcedisplay"></span></p>
+            <div class="responseitem">
+                <p><h3>Resturant Restriction:</h3><span id="resturantdisplay"></span></p>
+                <p><h3>Gathering Restriction:</h3><span id="gatheringdisplay"></span></p>
+                <p><h3>Non-essential business restrict:</h3><span id="noessentialdisplay"></span></p>
+                <p><h3>source:</h3><span id="sourcedisplay"></span></p>
 
             </div>
 
-            <div id="displaystatedata">
-                <p><h3>State</h3><span id="stateforstatedisplay"></span></p>
-                <p><h3>Date</h3><span id="dateforstatedisplay"></span></p>
-                <p><h3>Cases</h3><span id="casesforstatedisplay"></span></p>
-                <p><h3>Deaths</h3><span id="deathsforstatedisplay"></span></p>
+            <div id="displaystatedata" class="responseitem">
+                <p><h3>State:</h3><span id="stateforstatedisplay"></span></p>
+                <p><h3>Date:</h3><span id="dateforstatedisplay"></span></p>
+                <p><h3>Cases:</h3><span id="casesforstatedisplay"></span></p>
+                <p><h3>Deaths:</h3><span id="deathsforstatedisplay"></span></p>
             </div>
 
-            <div id="displaycountrydata">
-                <p><h3>Country</h3><span id="countryforcountrydisplay"></span></p>
-                <p><h3>Date</h3><span id="dateforcounrydisplay"></span></p>
-                <p><h3>Cases</h3><span id="casesforcountrydisplay"></span></p>
-                <p><h3>Deaths</h3><span id="deathsforcountrydisplay"></span></p>
+            <div id="displaycountrydata" class="responseitem">
+                <p><h3>Country:</h3><span id="countryforcountrydisplay"></span></p>
+                <p><h3>Date:</h3><span id="dateforcounrydisplay"></span></p>
+                <p><h3>Cases:</h3><span id="casesforcountrydisplay"></span></p>
+                <p><h3>Deaths:</h3><span id="deathsforcountrydisplay"></span></p>
             </div>
-            <div id="displayanalysis">
-                <p><h3>State or Country</h3><span id="displayanalysislocation"></span></p>
-                <p><h3>Min New Cases on a day</h3><span id="mincases"></span></p>
-                <p><h3>Max New Cases on a day</h3><span id="maxcases"></span></p>
-                <p><h3>Average New Cases per day</h3><span id="averagecases"></span></p>
-                <p><h3>Min deaths on a day</h3><span id="mindeaths"></span></p>
-                <p><h3>Max New Deaths on a day</h3><span id="maxdeaths"></span></p>
-                <p><h3>Average Deaths per day</h3><span id="averagedeaths"></span></p>
+            <div id="displayanalysis" class="responseitem">
+                <p><h3>State or Country:</h3><span id="displayanalysislocation"></span></p>
+                <p><h3>Min New Cases on a day:</h3><span id="mincases"></span></p>
+                <p><h3>Max New Cases on a day:</h3><span id="maxcases"></span></p>
+                <p><h3>Average New Cases per day:</h3><span id="averagecases"></span></p>
+                <p><h3>Min deaths on a day:</h3><span id="mindeaths"></span></p>
+                <p><h3>Max New Deaths on a day:</h3><span id="maxdeaths"></span></p>
+                <p><h3>Average Deaths per day:</h3><span id="averagedeaths"></span></p>
             </div>
 
     </div>

@@ -57,4 +57,4 @@ class StateDatabase:
 
         conn.close()
         selectconnect.close()
-        return {"status": "done"}
+        return {"status": "Done"}
