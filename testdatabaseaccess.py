@@ -33,9 +33,6 @@ def check_content(conn, state_inf, date):
     result = conn.execute("Select state, date from statedata WHERE state = ? and date=? ", data_to_check)
     print(len(result.fetchall()))
 
-
-
-
 conn = init_connection()
 selectconnect = init_connection()
 

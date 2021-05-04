@@ -60,6 +60,3 @@ class CountryDatabase:
         return {"status": "Done"}
 
 
-if __name__ == '__main__':
-    item = CountryDatabase()
-    item.update()

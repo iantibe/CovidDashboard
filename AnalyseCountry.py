@@ -58,31 +58,16 @@ class AnalyseCountry:
         print(results)
         print(new_list_of_data)
 
-        print(data_frame)
-        print(max_data_frame)
-        print(max_data_frame[0])
-        print("MAx case", max_data_frame[1])
+
         max_cases = max_data_frame[1]
-        print("Max death", max_data_frame[2])
         max_death = max_data_frame[2]
 
-        print(average_data_frame)
-        print("Average case", average_data_frame[0])
         average_cases = average_data_frame[0]
-        print("Avereage death", average_data_frame[1])
         average_deaths = average_data_frame[1]
 
-
-        print(min_data_frame)
-        print("Min case", min_data_frame[1])
         min_cases = min_data_frame[1]
-        print("Min case", min_data_frame[2])
         min_death = min_data_frame[2]
         conn.close()
         return  self.create_dict(str(max_cases),str(min_cases), str(max_death), str(min_death), str(average_cases),str(average_deaths))
 
 
-
-if __name__ == '__main__':
-    instance = AnalyseCountry()
-    print(instance.analyse_country("Ireland"))

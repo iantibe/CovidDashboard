@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Covid Dashboard</title>
-
 <style>
     body {
         background-color: cadetblue;
@@ -53,7 +52,6 @@
 
     .items h2{
         margin-top: 0;
-
     }
 
     .responseitem {
@@ -70,22 +68,21 @@
     <script>
 
         function get_search_data_for_country(){
-             countryselector = document.querySelector('#countryinput')
+            countryselector = document.querySelector('#countryinput')
             countrydata = countryselector.options[countryselector.selectedIndex].value
 
-             dateselector = document.querySelector('#countryinputdate')
+            dateselector = document.querySelector('#countryinputdate')
             datedata = dateselector.options[dateselector.selectedIndex].value
 
             var url = "/searchcountry/" + countrydata + "/" + datedata
-            console.log(url)
+
             var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
             var data = null
             data = this.responseText;
             objectdata = JSON.parse(data)
 
-           console.log(objectdata)
              document.querySelector('#dateforcounrydisplay').innerHTML = datedata
              document.querySelector('#countryforcountrydisplay').innerHTML = countrydata
              document.querySelector('#deathsforcountrydisplay').innerHTML = objectdata["deaths"]
@@ -101,26 +98,24 @@
         function get_serchdata_for_state() {
 
              stateselector = document.querySelector('#stateinput')
-            statedata = stateselector.options[stateselector.selectedIndex].value
+             statedata = stateselector.options[stateselector.selectedIndex].value
 
              dateselector = document.querySelector('#stateinputdate')
-            datedata = dateselector.options[dateselector.selectedIndex].value
+             datedata = dateselector.options[dateselector.selectedIndex].value
 
             var url = "/searchstate/" + statedata +"/" + datedata
-            console.log(url)
+
             var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = null
+                    data = this.responseText;
+                    objectdata = JSON.parse(data)
 
-           console.log(objectdata)
-
-             document.querySelector('#dateforstatedisplay').innerHTML = datedata
-             document.querySelector('#stateforstatedisplay').innerHTML = statedata
-             document.querySelector('#deathsforstatedisplay').innerHTML = objectdata["deaths"]
-             document.querySelector('#casesforstatedisplay').innerHTML = objectdata["cases"]
+                        document.querySelector('#dateforstatedisplay').innerHTML = datedata
+                        document.querySelector('#stateforstatedisplay').innerHTML = statedata
+                        document.querySelector('#deathsforstatedisplay').innerHTML = objectdata["deaths"]
+                        document.querySelector('#casesforstatedisplay').innerHTML = objectdata["cases"]
            }
          };
            xhttp.open("GET", url, true);
@@ -129,15 +124,14 @@
 
         function get_data_forstate_restrict(){
             statelookup = document.querySelector('#location')
-             lookupstate = statelookup.options[statelookup.selectedIndex].value
+            lookupstate = statelookup.options[statelookup.selectedIndex].value
 
-            console.log(lookupstate)
-             var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+            var xhttp = new XMLHttpRequest();
+             xhttp.onreadystatechange = function() {
+                 if (this.readyState == 4 && this.status == 200) {
+                    var data = null
+                    data = this.responseText;
+                    objectdata = JSON.parse(data)
 
             document.querySelector('#gatheringdisplay').innerHTML = objectdata["gather"]
             document.querySelector('#noessentialdisplay').innerHTML = objectdata["nonessentialbus"]
@@ -159,11 +153,10 @@
             var xhttp = new XMLHttpRequest();
          xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+                var data = null
+                data = this.responseText;
+                objectdata = JSON.parse(data)
 
-           console.log(objectdata)
              document.querySelector('#displayanalysislocation').innerHTML = statedata
              document.querySelector('#mincases').innerHTML = objectdata["mincase"]
              document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
@@ -180,23 +173,22 @@
         function display_country_analysis(){
 
            countryselector = document.querySelector('#selectcountryforanalyse')
-            countrydata = countryselector.options[countryselector.selectedIndex].value
+           countrydata = countryselector.options[countryselector.selectedIndex].value
            var url = "/analysecountry/" + countrydata
-            var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+           var xhttp = new XMLHttpRequest();
+           xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = null
+                    data = this.responseText;
+                    objectdata = JSON.parse(data)
 
-           console.log(objectdata)
-             document.querySelector('#displayanalysislocation').innerHTML = countrydata
-             document.querySelector('#mincases').innerHTML = objectdata["mincase"]
-             document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
-             document.querySelector('#averagecases').innerHTML = objectdata["averagecase"]
-             document.querySelector('#mindeaths').innerHTML = objectdata["mindeath"]
-             document.querySelector('#maxdeaths').innerHTML = objectdata["maxdeath"]
-             document.querySelector('#averagedeaths').innerHTML =     objectdata["averagedeath"]
+                    document.querySelector('#displayanalysislocation').innerHTML = countrydata
+                    document.querySelector('#mincases').innerHTML = objectdata["mincase"]
+                    document.querySelector('#maxcases').innerHTML = objectdata["maxcase"]
+                    document.querySelector('#averagecases').innerHTML = objectdata["averagecase"]
+                    document.querySelector('#mindeaths').innerHTML = objectdata["mindeath"]
+                    document.querySelector('#maxdeaths').innerHTML = objectdata["maxdeath"]
+                    document.querySelector('#averagedeaths').innerHTML =     objectdata["averagedeath"]
            }
          };
            xhttp.open("GET", url, true);
@@ -205,19 +197,17 @@
 
         function update_state(){
             document.querySelector('#updatestateresult').innerHTML = "Loading data....Please Wait...."
-             var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = null
+                    data = this.responseText;
+                    objectdata = JSON.parse(data)
 
-           console.log(objectdata)
-                today = new Date()
-             document.querySelector('#updatestateresult').innerHTML = objectdata["status"] + " at " + today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()
-             console.log("fire date update")
-             getstatedates()
 
+                 today = new Date()
+                 document.querySelector('#updatestateresult').innerHTML = objectdata["status"] + " at " + today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()
+                 getstatedates()
            }
          };
            xhttp.open("GET", "/updatestate", true);
@@ -227,16 +217,15 @@
 
         function update_country(){
             document.querySelector('#updatecountryresult').innerHTML = "Loading data....Please Wait...."
-             var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                var data = null
+                data = this.responseText;
+                objectdata = JSON.parse(data)
 
-           console.log(objectdata)
                 today = new Date()
-             document.querySelector('#updatecountryresult').innerHTML = objectdata["status"] +  " at " + today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()
+                  document.querySelector('#updatecountryresult').innerHTML = objectdata["status"] +  " at " + today.getMonth() + "/" + today.getDate() + "/" + today.getFullYear()
              getcountrydates()
            }
          };
@@ -247,28 +236,22 @@
 
         function fillstatelist(){
              var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
-
-           console.log(objectdata)
+             xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                var data = null
+                data = this.responseText;
+                objectdata = JSON.parse(data)
 
             for(let x= 0; x< objectdata.length; x++){
                 var item1 = document.createElement("option")
-                //var item2 = document.createElement("option")
                 var item3 = document.createElement("option")
                 item1.value = objectdata[x]
                 item1.text = objectdata[x]
 
-                //item2.value = objectdata[x]
-                //item2.text = objectdata[x]
 
                 item3.value = objectdata[x]
                 item3.text = objectdata[x]
                 document.querySelector('#selectstateforanalyse').appendChild(item1)
-               // document.querySelector('#stateinputrestrictions').appendChild(item2)
                 document.querySelector('#stateinput').appendChild(item3)
 
             }
@@ -281,13 +264,12 @@
 
         function fillcountrylist(){
             var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                    var data = null
+                    data = this.responseText;
+                    objectdata = JSON.parse(data)
 
-           console.log(objectdata)
 
               for(let x= 0; x< objectdata.length; x++){
                 var item1 = document.createElement("option")
@@ -310,13 +292,12 @@
 
         function getstatedates(){
              var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var data = null
+                    data = this.responseText;
+                    objectdata = JSON.parse(data)
 
-           console.log(objectdata)
 
              for(let x=0; x < objectdata.length; x++){
                  var element = document.createElement("option")
@@ -324,8 +305,6 @@
                  element.text = objectdata[x]
                  document.querySelector("#stateinputdate").appendChild(element)
              }
-
-
            }
          };
            xhttp.open("GET", "/generatestatedates", true);
@@ -334,20 +313,18 @@
 
         function getcountrydates(){
              var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
-            var data = null
-            data = this.responseText;
-            objectdata = JSON.parse(data)
+             xhttp.onreadystatechange = function() {
+             if (this.readyState == 4 && this.status == 200) {
+                var data = null
+                data = this.responseText;
+                objectdata = JSON.parse(data)
 
-           console.log(objectdata)
             for(let x=0; x < objectdata.length; x++){
                  var element = document.createElement("option")
                  element.value = objectdata[x]
                  element.text = objectdata[x]
                  document.querySelector("#countryinputdate").appendChild(element)
              }
-
            }
          };
            xhttp.open("GET", "/generatecountrydates", true);
@@ -365,7 +342,6 @@
             <h2>Update Country Data</h2>
             <input type="button" value="Click to Load Newest Country Data" onclick="update_country()"/>
             <span id="updatecountryresult"></span>
-
         </div>
         <div class="items">
             <h2>Update State Date</h2>
@@ -432,12 +408,10 @@
 	                    <option value="WY">Wyoming</option>
                 </select>
                 <input type="button" onclick="get_data_forstate_restrict()" value="test">
-
             </div>
         </div>
     </div>
     <div class="buttons">
-
         <div class="items">
             <h2>Search State data</h2>
             <div>
@@ -458,9 +432,7 @@
                 <input type="button" onclick="get_search_data_for_country()" value="test">
             </div>
         </div>
-
     </div>
-
     <div class="buttons">
         <div class="items">
             <h2>Analyse State Data</h2>
@@ -475,28 +447,24 @@
             <input type="button" value="Start" onclick="display_country_analysis()">
         </div>
     </div>
-
     <div id="response">
             <div class="responseitem">
                 <p><h3>Resturant Restriction:</h3><span id="resturantdisplay"></span></p>
                 <p><h3>Gathering Restriction:</h3><span id="gatheringdisplay"></span></p>
                 <p><h3>Non-essential business restrict:</h3><span id="noessentialdisplay"></span></p>
                 <p><h3>source:</h3><span id="sourcedisplay"></span></p>
-
             </div>
-
             <div id="displaystatedata" class="responseitem">
                 <p><h3>State:</h3><span id="stateforstatedisplay"></span></p>
                 <p><h3>Date:</h3><span id="dateforstatedisplay"></span></p>
-                <p><h3>Cases:</h3><span id="casesforstatedisplay"></span></p>
-                <p><h3>Deaths:</h3><span id="deathsforstatedisplay"></span></p>
+                <p><h3>Total Cases to date:</h3><span id="casesforstatedisplay"></span></p>
+                <p><h3>Total Deaths to date:</h3><span id="deathsforstatedisplay"></span></p>
             </div>
-
             <div id="displaycountrydata" class="responseitem">
                 <p><h3>Country:</h3><span id="countryforcountrydisplay"></span></p>
                 <p><h3>Date:</h3><span id="dateforcounrydisplay"></span></p>
-                <p><h3>Cases:</h3><span id="casesforcountrydisplay"></span></p>
-                <p><h3>Deaths:</h3><span id="deathsforcountrydisplay"></span></p>
+                <p><h3>Total Cases to date:</h3><span id="casesforcountrydisplay"></span></p>
+                <p><h3>Total Deaths to date:</h3><span id="deathsforcountrydisplay"></span></p>
             </div>
             <div id="displayanalysis" class="responseitem">
                 <p><h3>State or Country:</h3><span id="displayanalysislocation"></span></p>
@@ -507,9 +475,7 @@
                 <p><h3>Max New Deaths on a day:</h3><span id="maxdeaths"></span></p>
                 <p><h3>Average Deaths per day:</h3><span id="averagedeaths"></span></p>
             </div>
-
     </div>
 </div>
-
 </body>
 </html>
